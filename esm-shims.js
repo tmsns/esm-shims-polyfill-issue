@@ -594,7 +594,7 @@
         resolvedSource += source.slice(lastIndex, originalIndex);
         lastIndex = originalIndex;
       }
-      for (const { s: start, ss: statementStart, se: statementEnd, d: dynamicImportIndex } of imports) {
+      for (const { s: start, ss: statementStart, se: statementEnd, d: dynamicImportIndex, n } of imports) {
         // dependency source replacements
         if (dynamicImportIndex === -1) {
           let depLoad = load.d[depIndex++], blobUrl = depLoad.b, cycleShell = !blobUrl;
@@ -615,7 +615,9 @@
           }
 
           pushStringTo(start - 1);
-          resolvedSource += `/*${source.slice(start - 1, statementEnd)}*/${urlJsString(blobUrl)}`;
+
+          const fullUrl = new URL(n, window.location.href).toString();
+          resolvedSource += `/*${source.slice(start - 1, statementEnd)}*/${urlJsString(ranModules.includes(fullUrl) ? fullUrl : blobUrl)}`;
 
           // circular shell execution
           if (!cycleShell && depLoad.s) {
@@ -871,8 +873,10 @@
     }
   }
 
+  const ranModules = [];
   function processScript (script, ready = readyStateCompleteCnt > 0) {
     if (epCheck(script, ready)) return;
+    if (script.src && script.type === 'module') ranModules.push(script.src);
     // does this load block readystate complete
     const isBlockingReadyScript = script.getAttribute('async') === null && readyStateCompleteCnt > 0;
     // does this load block DOMContentLoaded
