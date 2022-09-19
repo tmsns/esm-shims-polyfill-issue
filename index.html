@@ -1,9 +1,62 @@
 <html>
-  <head> </head>
   <body>
-    <script src="./esm-shims.js"></script>
-    <script type="importmap">{"imports":{"foo":"./foo.js"}}</script>
-    <script type="module" src="./bundle.js"></script>
-    <my-app></my-app>
+    <table>
+      <tr>
+        <th>Test</th>
+        <th>Module System</th>
+        <th>Works in FF</th>
+        <th>FF-nocache-gprs</th>
+        <th>FF-cache-gprs</th>
+      </tr>
+      <tr>
+        <td><a href="/esm-polyfill">esm polyfill</a></td>
+        <td>esm: polyfill</td>
+        <td>No</td>
+        <td>9,66s + flicker</td>
+        <td>553ms + no flicker</td>
+      </tr>
+      <tr>
+        <td><a href="/esm-polyfill-async">esm polyfill async</a></td>
+        <td>esm: polyfill</td>
+        <td>No</td>
+        <td>9,64s + flicker</td>
+        <td>553ms + no flicker</td>
+      </tr>
+      <tr>
+        <td><a href="/esm-polyfill-fix">esm polyfill fix</a></td>
+        <td>esm: polyfill</td>
+        <td>Yes</td>
+        <td>9,64s + flicker</td>
+        <td>553ms + no flicker</td>
+      </tr>
+      <tr>
+        <td><a href="/esm-polyfill-import-app">esm polyfill import app</a></td>
+        <td>esm: polyfill</td>
+        <td>Yes, but with error</td>
+        <td>10,18s + flicker</td>
+        <td>556ms + flicker</td>
+      </tr>
+      <tr>
+        <td><a href="/esm-shim">esm shim</a></td>
+        <td>esm: shim</td>
+        <td>Yes</td>
+        <td>10,16s + flicker</td>
+        <td>558ms + flicker</td>
+      </tr>
+      <tr>
+        <td><a href="/esm-shim-noler">esm shim no ler</a></td>
+        <td>esm: shim</td>
+        <td>Yes</td>
+        <td>10,12s + flicker</td>
+        <td>581ms + flicker</td>
+      </tr>
+      <tr>
+        <td><a href="/system">system</a></td>
+        <td>systemjs</td>
+        <td>Yes</td>
+        <td>6,60s + no flicker</td>
+        <td>540ms + no flicker</td>
+      </tr>
+    </table>
   </body>
 </html>
